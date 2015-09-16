@@ -59,20 +59,21 @@ public class LEDClient implements ILEDClient {
 	private boolean onLED() throws IOException {
 		final int on = 1;
 		this.writer.print(on);
+		this.writer.flush();
 		System.out.println("Ligando LED...");
 		try {
 			while (true) {
 				int response = this.reader.read();
 				if (response == on) {
 					System.out.println("LED Ligada!");
+					closeConnection();
 					return true;
 				}
 			}
 		} catch (IOException e) {
 			System.err.println("[Erro ao tentar ligar a LED]: " + e.getMessage());
-			return false;
-		} finally {
 			closeConnection();
+			return false;
 		}
 	}
 
@@ -92,14 +93,14 @@ public class LEDClient implements ILEDClient {
 				int response = this.reader.read();
 				if (response == off) {
 					System.out.println("LED Desligada!");
+					closeConnection();
 					return true;
 				}
 			}
 		} catch (IOException e) {
 			System.err.println("[Erro ao tentar desligar a LED]: " + e.getMessage());
-			return false;
-		} finally {
 			closeConnection();
+			return false;
 		}
 	}
 

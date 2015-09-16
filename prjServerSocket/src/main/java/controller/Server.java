@@ -1,16 +1,15 @@
 package controller;
 
-import java.io.BufferedReader;
+import interfaces.IArduinoService;
+import interfaces.IServer;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import interfaces.IArduinoService;
-import interfaces.IServer;
 import service.ArduinoService;
 
 public class Server implements IServer {
@@ -35,15 +34,13 @@ public class Server implements IServer {
 	}
 	
 	private void process(Socket request) throws IOException{
-		System.out.println("Opa" + request.getLocalAddress());
 		try {
 			InputStream input = request.getInputStream();
 			OutputStream output = request.getOutputStream();
-			BufferedReader buffer = new BufferedReader(new InputStreamReader(input));
 			PrintWriter print = new PrintWriter(output, true);
 			while (true) {	
 				try {
-					int read = buffer.read();
+					int read = input.read();
 					arduinoService.writeData(read);
 				} catch (Exception e) {
 					print.println("[Arduino Erro]" + e.getMessage());
@@ -53,8 +50,6 @@ public class Server implements IServer {
 			request.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			closeConnection();
 		}
 	}
 	
