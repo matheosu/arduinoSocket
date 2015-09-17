@@ -2,7 +2,7 @@ package controller;
 
 import java.io.IOException;
 
-public class Main {
+public class MainClient {
 
 	private static final int DEFAULT_PORT = 4000;
 	

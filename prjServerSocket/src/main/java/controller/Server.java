@@ -28,6 +28,7 @@ public class Server implements IServer {
 		serverSocket = new ServerSocket(DEFAULT_PORT);
 	}
 
+	@SuppressWarnings("unused")
 	private void closeConnection() throws IOException {
 		serverSocket.close();
 		serverSocket = null;

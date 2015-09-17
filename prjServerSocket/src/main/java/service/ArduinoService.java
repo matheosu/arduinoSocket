@@ -61,6 +61,7 @@ public class ArduinoService implements SerialPortEventListener, IArduinoService 
 			try {
 				String inputLine = input.readLine();
 				System.out.println(inputLine);
+				close();
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}
@@ -69,12 +70,11 @@ public class ArduinoService implements SerialPortEventListener, IArduinoService 
 
 	@Override
 	public void writeData(int o) throws Exception {
-		writeData(Integer.toString(o));
+		writeData((byte)o);
 	}
 	
-	public synchronized void writeData(String data) throws Exception {
+	public synchronized void writeData(byte data) throws Exception {
 		if(serialPort == null) initialize();
-		output.write(data.getBytes());
-		close();
+		output.write(data);
 	}
 }
